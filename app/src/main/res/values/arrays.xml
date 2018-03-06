@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="buttons">
+        <item>LOCK MODE</item>
+        <item>START RECORDING</item>
+        <item>OPEN SAVE DIRECTORY</item>
+        <item>CHANGE SAVE DIRECTORY</item>
+        <item>SEND RECORDING</item>
+        <item>OTHER SETTINGS</item>
+        <item>CHOOSE OUTPUT FORMAT</item>
+        <item>ADJUST MIC SENSITIVITY</item>
+    </string-array>
+
+    <string-array name="sample_rate_button">
+        <item>8000 Hz</item>
+        <item>16000 Hz</item>
+        <item>44100 Hz</item>
+    </string-array>
+    <string-array name="sample_rate">
+        <item>8000</item>
+        <item>16000</item>
+        <item>44100</item>
+    </string-array>
+
+    <string-array name="channel_config">
+        <item>mono</item>
+        <item>stereo</item>
+    </string-array>
+
+    <string-array name="encoding">
+        <item>PCM 8-BIT</item>
+        <item>PCM 16-BIT</item>
+        <item>PCM 32-BIT</item>
+    </string-array>
+
+    <string-array name="bit_rate_button">
+        <item>128 kb/s</item>
+        <item>256 kb/s</item>
+        <item>320 kb/s</item>
+        <item>400 kb/s</item>
+    </string-array>
+    <string-array name="bit_rate">
+        <item>128000</item>
+        <item>256000</item>
+        <item>320000</item>
+        <item>400000</item>
+    </string-array>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
+    </style>
+    <style name="AlertDialogCustom" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+</resources>

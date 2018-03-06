@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~     LM AudioSpy is an audio recording app for Android version 5.1
+  ~     Copyright (C) 2017-2018 Loremar Marabillas
+  ~
+  ~     This program is free software; you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation; either version 2 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License along
+  ~     with this program; if not, write to the Free Software Foundation, Inc.,
+  ~     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:entries="@array/sample_rate_button"
+        android:entryValues="@array/sample_rate"
+        android:key="sample_rate"
+        android:defaultValue="44100"
+        android:summary="@string/sample_rate_summary"
+        android:title="Sample Rate"/>
+    <ListPreference
+        android:entries="@array/channel_config"
+        android:entryValues="@array/channel_config"
+        android:key="channel_config"
+        android:defaultValue="mono"
+        android:summary="@string/channel_config_summary"
+        android:title="Channel Config"/>
+    <ListPreference
+        android:entries="@array/encoding"
+        android:entryValues="@array/encoding"
+        android:key="encoding"
+        android:defaultValue="PCM 16-BIT"
+        android:summary="@string/encoding_summary"
+        android:title="Encoding Format"/>
+    <ListPreference
+        android:entries="@array/bit_rate_button"
+        android:entryValues="@array/bit_rate"
+        android:key="bit_rate"
+        android:defaultValue="256000"
+        android:summary="@string/bit_rate_summary"
+        android:title="Bit Rate"/>
+</PreferenceScreen>

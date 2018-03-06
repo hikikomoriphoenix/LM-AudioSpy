@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~     LM AudioSpy is an audio recording app for Android version 5.1
+  ~     Copyright (C) 2017-2018 Loremar Marabillas
+  ~
+  ~     This program is free software; you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation; either version 2 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     This program is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License along
+  ~     with this program; if not, write to the Free Software Foundation, Inc.,
+  ~     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  -->
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:id="@+id/chooseOutputFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_output_format"
+        app:layout_constraintBottom_toTopOf="@id/outputFormatChoices"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"/>
+    <RadioGroup
+        android:id="@+id/outputFormatChoices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/whenToConvertAudioRadioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="40dp">
+        <RadioButton
+            android:id="@+id/wavOnly"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/wav_only"/>
+        <RadioButton
+            android:id="@+id/m4aOnly"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/m4a_only"/>
+        <RadioButton
+            android:id="@+id/wavAndM4a"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="@string/wav_and_m4a"/>
+    </RadioGroup>
+    <TextView
+        android:id="@+id/whenToConvertAudioText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/convert_audio_to_m4a"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/whenToConvertAudioRadioGroup"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"/>
+    <RadioGroup
+        android:id="@+id/whenToConvertAudioRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/outputFormatChoices"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="40dp">
+        <RadioButton
+            android:id="@+id/afterRecording"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/after_recording"/>
+        <RadioButton
+            android:id="@+id/whileRecording"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/while_recording"/>
+    </RadioGroup>
+
+</android.support.constraint.ConstraintLayout>

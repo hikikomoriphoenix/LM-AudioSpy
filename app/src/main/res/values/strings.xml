@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">LM AudioSpy</string>
+    <string name="doubletap_start">Double tap screen to start recording</string>
+    <string name="doubletap_stop">Double tap screen to stop recording</string>
+    <string name="recording">RECORDING</string>
+    <string name="lock_mode_desc">This mode allows you to record audio while your eyes are off the screen. Record audio by double tapping on screen. Double tap again to stop and save. The back button is disabled and the app will try to relaunch the current view when removed keeping the app available for double taps.</string>
+    <string name="start_recording_desc">Start recording audio right away. This app will not attempt to lock on screen. You may do anything in your device wile recording. Hit STOP button to stop and save.</string>
+    <string name="change_save_directory_desc">Set a new save directory where new recordings will be saved.</string>
+    <string name="open_save_directory_desc">View all saved recordings. Choose what you want to do with a recording.</string>
+    <string name="adjust_mic_sensitivity_desc">Set to higher value if volume of recording is too low. Set to lower if it is too loud.</string>
+    <string name="choose_output_format_desc">Choose WAV only if you want raw audio in WAV format. Choose M4A only if you want encoded audio that is supported by most media players. Choose WAV and M4A if you want both.</string>
+    <string name="other_settings_desc">Set parameters to different value if default values are not supported by this device.</string>
+    <string name="send_recording_desc">Send recording to others via email or other apps.</string>
+    <string name="key_to_unclock_screen">key to unclock screen</string>
+    <string name="lock">lock</string>
+    <string name="swipe_right_to_unlock">swipe right to unlock</string>
+    <string name="play">PLAY</string>
+    <string name="rename">Rename</string>
+    <string name="send">Send</string>
+    <string name="stop">STOP</string>
+    <string name="ok">OK</string>
+    <string name="make_new_folder">Make New Folder in Current Directory</string>
+    <string name="save_current_as_new_save_directory">Set Current as New Save Directory</string>
+    <string name="move_the_slider">Move the slider to adjust mic sensitivity:</string>
+    <string name="choose_output_format">Choose the output format to save the recordings to:</string>
+    <string name="wav_only">WAV only</string>
+    <string name="m4a_only">M4A only</string>
+    <string name="wav_and_m4a">WAV and M4A</string>
+    <string name="sample_rate_summary">Amount of samples of audio data to record by this device per second. Most devices support 44100 Hz.</string>
+    <string name="channel_config_summary">Configures the number of channels to record audio. Setting it to mono will likely work.</string>
+    <string name="encoding_summary">The data size of individual audio samples recorded per second.</string>
+    <string name="bit_rate_summary">Total size of output audio per time of playback after encoding recorded samples. This setting is used when converting audio to M4A format.</string>
+    <string name="convert_audio_to_m4a">Convert audio to M4a</string>
+    <string name="after_recording">after recording</string>
+    <string name="while_recording">while recording</string>
+    <string name="delete">Delete</string>
+</resources>
