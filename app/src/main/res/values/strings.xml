@@ -3,7 +3,7 @@
     <string name="doubletap_start">Double tap screen to start recording</string>
     <string name="doubletap_stop">Double tap screen to stop recording</string>
     <string name="recording">RECORDING</string>
-    <string name="lock_mode_desc">This mode allows you to record audio while your eyes are off the screen. Record audio by double tapping on screen. Double tap again to stop and save. The back button is disabled and the app will try to relaunch the current view when removed keeping the app available for double taps.</string>
+    <string name="lock_mode_desc">This mode allows you to record audio while your eyes are off the screen. Record audio by double tapping on screen. Double tap again to stop and save. The back button is disabled and the app will try to relaunch the current view when it loses focus by e.g. pressing HOME button, keeping the app available for double taps.</string>
     <string name="start_recording_desc">Start recording audio right away. This app will not attempt to lock on screen. You may do anything in your device wile recording. Hit STOP button to stop and save.</string>
     <string name="change_save_directory_desc">Set a new save directory where new recordings will be saved.</string>
     <string name="open_save_directory_desc">View all saved recordings. Choose what you want to do with a recording.</string>
@@ -34,4 +34,5 @@
     <string name="after_recording">after recording</string>
     <string name="while_recording">while recording</string>
     <string name="delete">Delete</string>
+    <string name="lm_audiospy_is_recording_audio">LM AudioSpy is recording audio</string>
 </resources>

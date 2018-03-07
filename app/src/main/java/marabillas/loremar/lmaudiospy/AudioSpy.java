@@ -23,13 +23,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
 import android.media.AudioFormat;
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -64,16 +70,78 @@ public class AudioSpy extends Activity{
         return getFragmentManager().findFragmentByTag("LOCK MODE") == null && super.onKeyDown(keyCode, event);
     }
 
+    class RecordingStatus implements Runnable{
+        View view;
+        boolean shownLong=false;
+        RecordingStatus(View view){
+            this.view = view;
+        }
+        @Override
+        public void run() {
+            if(view!=null) {
+                float alpha = 0;
+                if (view.getAlpha() == 0) alpha = 1;
+                else if (view.getAlpha() == 1 && !shownLong ){
+                    new Handler(getMainLooper()).postDelayed(this, 2000);
+                    shownLong = true;
+                    return;
+                }
+                else if (view.getAlpha() == 1 && shownLong){
+                    alpha = 0;
+                    shownLong = false;
+                }
+                view.animate().setDuration(500);
+                view.animate().alpha(alpha).withEndAction(this);
+            }
+        }
+    }
+    WindowManager wm;
+    View overlay;
+
     @Override
     protected void onStop() {
         Log.i(LOG_TAG, "main activity onstop is called");
         if(getFragmentManager().findFragmentByTag("LOCK MODE") != null){
             Log.i(LOG_TAG, "restarting mainActivity");
-            Intent intent = (new Intent(getApplicationContext(), this.getClass()));
+            Intent intent = (new Intent(getApplicationContext(), getClass()));
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
+        if(getFragmentManager().findFragmentByTag(("START RECORDING")) != null){
+            LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+            if (inflater != null) {
+                overlay = inflater.inflate(R.layout.recording_status_overlay, null);
+            }
+            if(overlay!=null) {
+                WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT,
+                        WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+                                | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                                | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                        , PixelFormat.TRANSLUCENT);
+                params.gravity = Gravity.TOP;
+                wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+                if (wm != null) {
+                    wm.addView(overlay, params);
+                }
+                overlay.setAlpha(1);
+                new RecordingStatus(overlay).run();
+            }
+        }
         super.onStop();
+    }
+
+    @Override
+    protected void onRestart() {
+       if(getFragmentManager().findFragmentByTag(("START RECORDING")) != null) {
+           if(overlay!=null){
+               wm.removeView(overlay);
+           }
+       }
+        super.onRestart();
     }
 
     /**
