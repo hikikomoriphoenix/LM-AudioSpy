@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -184,6 +185,7 @@ public class OpenSaveDirectoryFragment extends Fragment implements View.OnClickL
                             if(file.delete()) {
                                 recordingsList.remove(selectedItem.index);
                                 selectedItem.index = -1;
+                                selectedItem.highlightedView.setBackgroundColor(Color.BLACK);
                                 selectedItem.highlightedView = null;
                                 recordingsView.getAdapter().notifyDataSetChanged();
                             }
@@ -203,14 +205,15 @@ public class OpenSaveDirectoryFragment extends Fragment implements View.OnClickL
 
     class RecordingAdapter extends RecyclerView.Adapter<ItemHolder>{
 
+        @NonNull
         @Override
-        public ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(main.getApplicationContext());
             return (new ItemHolder(inflater.inflate(R.layout.recording_item, parent, false)));
         }
 
         @Override
-        public void onBindViewHolder(ItemHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
             holder.bind(recordingsList.get(position), position);
         }
 

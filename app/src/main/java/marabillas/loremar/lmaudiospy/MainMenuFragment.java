@@ -34,13 +34,13 @@ import android.widget.TextView;
 /**
  * Created by Loremar Marabillas on 27/01/2018.
  * Main menu with rotating items.
- * 1.start recording
+ * 1. start recording
  * 2. lock mode
- * 3. change mic sensitivity
+ * 3. adjust mic sensitivity
  * 4. open save directory
  * 5. change save directory
  * 6. change output format
- * 7. email recording
+ * 7. send recording
  * 8. other settings
  */
 
