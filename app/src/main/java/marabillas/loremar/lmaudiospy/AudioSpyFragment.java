@@ -102,7 +102,6 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
     private ByteBuffer audioBuffer;
     private int readBufferSize;
     boolean isRecording = false;
-    private Thread recordingThread;
     private ThreadGroup encoderThreads;
     private int whenToConvertAudioId;
     
@@ -284,20 +283,20 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
             if(AutomaticGainControl.isAvailable()) AutomaticGainControl.create(audioSessionId).setEnabled(true);*/
             audioRec.startRecording();
 
-            recordingThread = new Thread(new Runnable() {
+            Thread recordingThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         recordFilenameBase = String.valueOf(System.currentTimeMillis());
                         File saveDir = new File(Environment.getExternalStorageDirectory(), "LM AudioSpy");
                         saveDirectory = prefs.getString("save_directory", saveDir.getAbsolutePath());
-                        if(!AudioSpy.createValidFile(saveDirectory)){
+                        if (!AudioSpy.createValidFile(saveDirectory)) {
                             isRecording = false;
                             PopUpText.show("Failed to create directory", main.getApplicationContext());
                             getFragmentManager().popBackStack();
                             return;
                         }
-                        if(saveToWAV) {
+                        if (saveToWAV) {
                             File audioFile = new File(saveDirectory, recordFilenameBase + ".wav");
                             audioOut = new FileOutputStream(audioFile);
                             fileChannel = audioOut.getChannel();
@@ -305,18 +304,17 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
                             AudioProcessingTools.writeWavHeader(fileChannel, channelConfig, sampleRate, encodingFormat);
                         }
 
-                        if(saveToM4A) {
+                        if (saveToM4A) {
                             bytesOut = new ByteArrayOutputStream();
-                            if(whenToConvertAudioId == R.id.afterRecording){
+                            if (whenToConvertAudioId == R.id.afterRecording) {
                                 writeChannel = Channels.newChannel(bytesOut);
-                            }
-                            else if(whenToConvertAudioId == R.id.whileRecording){
+                            } else if (whenToConvertAudioId == R.id.whileRecording) {
                                 AudioProcessingTools.initAudioConversion(saveDirectory, recordFilenameBase);
                             }
                         }
 
                         while (isRecording) {
-                            if(audioRec==null) {
+                            if (audioRec == null) {
                                 audioRec = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, channelConfig, encodingFormat, readBufferSize);
                                 audioRec.startRecording();
                             }
@@ -324,22 +322,21 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
                             audioBuffer.order(ByteOrder.LITTLE_ENDIAN);
                             AudioProcessingTools.MaxAmplitude maxAmplitude = new AudioProcessingTools.MaxAmplitude(0);
                             AudioProcessingTools.readAudioApplyGain(audioBuffer, audioRec, readBufferSize, gain, maxAmplitude);
-                            if(saveToWAV) fileChannel.write(audioBuffer);
-                            if(saveToM4A) {
+                            if (saveToWAV) fileChannel.write(audioBuffer);
+                            if (saveToM4A) {
                                 audioBuffer.rewind();
-                                if(whenToConvertAudioId == R.id.afterRecording) {
+                                if (whenToConvertAudioId == R.id.afterRecording) {
                                     writeChannel.write(audioBuffer);
-                                }
-                                else if(whenToConvertAudioId == R.id.whileRecording){
+                                } else if (whenToConvertAudioId == R.id.whileRecording) {
                                     AudioProcessingTools.addData(audioBuffer);
                                 }
                             }
                         }
-                        if(saveToWAV) {
+                        if (saveToWAV) {
                             fileChannel.close();
-                            updateLog("\nAudio successfully recorded and saved as "+ recordFilenameBase + ".wav");
+                            updateLog("\nAudio successfully recorded and saved as " + recordFilenameBase + ".wav");
                         }
-                        if(saveToM4A) {
+                        if (saveToM4A) {
                             if (whenToConvertAudioId == R.id.whileRecording) {
                                 AudioProcessingTools.notifyRecordingEnded();
                             }
@@ -374,8 +371,8 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
                             }
                         }
 
-                    }catch(IOException e){
-                        Log.e(LOG,"IOException in recordingThread", e);
+                    } catch (IOException e) {
+                        Log.e(LOG, "IOException in recordingThread", e);
                         isRecording = false;
                     }
                 }
@@ -402,16 +399,6 @@ public final class AudioSpyFragment extends Fragment implements View.OnTouchList
     @Override
     public boolean onDoubleTapEvent(MotionEvent motionEvent) {
         return false;
-    }
-
-    @Override
-    public void onStop(){
-        recordingThread = null;
-        if(AudioProcessingTools.codec != null) {
-            AudioProcessingTools.codec.release();
-            AudioProcessingTools.codec = null;
-        }
-        super.onStop();
     }
 
     private void updateLog(final String message){

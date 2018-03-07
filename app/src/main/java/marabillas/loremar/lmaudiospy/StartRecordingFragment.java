@@ -65,7 +65,6 @@ public class StartRecordingFragment extends Fragment implements View.OnClickList
     private int readBufferSize;
     private ByteBuffer audioBuffer;
     private boolean isRecording = false;
-    private Thread recordingThread;
     private int whenToConvertAudioId;
 
     //IO-specific fields
@@ -178,30 +177,29 @@ public class StartRecordingFragment extends Fragment implements View.OnClickList
             else headerText = recordFilenameBase + ".m4a";
             header.setText(headerText);
 
-            recordingThread = new Thread(new Runnable() {
+            Thread recordingThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         File saveDir = new File(Environment.getExternalStorageDirectory(), "LM AudioSpy");
                         saveDirectory = prefs.getString("save_directory", saveDir.getAbsolutePath());
-                        if(!AudioSpy.createValidFile(saveDirectory)){
+                        if (!AudioSpy.createValidFile(saveDirectory)) {
                             isRecording = false;
                             PopUpText.show("Failed to create directory", getActivity().getApplicationContext());
                             getFragmentManager().popBackStack();
                             return;
                         }
-                        if(saveToWAV) {
+                        if (saveToWAV) {
                             File audioFile = new File(saveDirectory, recordFilenameBase + ".wav");
                             audioOut = new FileOutputStream(audioFile);
                             fileChannel = audioOut.getChannel();
                             AudioProcessingTools.writeWavHeader(fileChannel, channelConfig, sampleRate, encodingFormat);
                         }
-                        if(saveToM4A) {
+                        if (saveToM4A) {
                             bytesOut = new ByteArrayOutputStream();
-                            if(whenToConvertAudioId == R.id.afterRecording){
+                            if (whenToConvertAudioId == R.id.afterRecording) {
                                 writeChannel = Channels.newChannel(bytesOut);
-                            }
-                            else if(whenToConvertAudioId == R.id.whileRecording){
+                            } else if (whenToConvertAudioId == R.id.whileRecording) {
                                 AudioProcessingTools.initAudioConversion(saveDirectory, recordFilenameBase);
                             }
                         }
@@ -244,35 +242,33 @@ public class StartRecordingFragment extends Fragment implements View.OnClickList
                         graphUpdate.run();
 
                         while (isRecording) {
-                            if(record==null){
+                            if (record == null) {
                                 record = new AudioRecord(MediaRecorder.AudioSource.MIC, sampleRate, channelConfig, encodingFormat, readBufferSize);
                                 record.startRecording();
                             }
                             audioBuffer = ByteBuffer.allocateDirect(readBufferSize);
                             audioBuffer.order(ByteOrder.LITTLE_ENDIAN);
                             AudioProcessingTools.readAudioApplyGain(audioBuffer, record, readBufferSize, gain, maxAmplitude);
-                            if(saveToWAV) fileChannel.write(audioBuffer);
-                            if(saveToM4A) {
+                            if (saveToWAV) fileChannel.write(audioBuffer);
+                            if (saveToM4A) {
                                 audioBuffer.rewind();
-                                if(whenToConvertAudioId == R.id.afterRecording) {
+                                if (whenToConvertAudioId == R.id.afterRecording) {
                                     writeChannel.write(audioBuffer);
-                                }
-                                else if(whenToConvertAudioId == R.id.whileRecording){
+                                } else if (whenToConvertAudioId == R.id.whileRecording) {
                                     AudioProcessingTools.addData(audioBuffer);
                                 }
                             }
                         }
                         record.stop();
                         record.release();
-                        if(saveToWAV) {
+                        if (saveToWAV) {
                             fileChannel.close();
                             Log.i(LOG, "Raw Audio is successfully saved as wav file.");
                         }
-                        if(saveToM4A) {
-                            if(whenToConvertAudioId == R.id.afterRecording) {
+                        if (saveToM4A) {
+                            if (whenToConvertAudioId == R.id.afterRecording) {
                                 writeChannel.close();
-                            }
-                            else if(whenToConvertAudioId == R.id.whileRecording){
+                            } else if (whenToConvertAudioId == R.id.whileRecording) {
                                 AudioProcessingTools.notifyRecordingEnded();
                             }
                         }
@@ -281,7 +277,7 @@ public class StartRecordingFragment extends Fragment implements View.OnClickList
                         mainHandler.removeCallbacks(graphUpdate);
 
                         Bundle data = new Bundle();
-                        if(saveToM4A) data.putByteArray("audio data", bytesOut.toByteArray());
+                        if (saveToM4A) data.putByteArray("audio data", bytesOut.toByteArray());
                         data.putString("name", recordFilenameBase);
                         postRecordingFragment.setArguments(data);
                         FragmentManager fragmentManager = getFragmentManager();
@@ -297,12 +293,6 @@ public class StartRecordingFragment extends Fragment implements View.OnClickList
             recordingThread.start();
         }
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public void onStop() {
-        recordingThread = null;
-        super.onStop();
     }
 
     @Override
